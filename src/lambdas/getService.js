@@ -8,6 +8,7 @@ const service = new SampleService(client);
 const controller = new SampleController(service);
 
 export const handler = interceptor((event, context, callback) => {
+    console.log('TEst................');
     return controller
         .getService(event)
         .then(response => callback(null, response))
