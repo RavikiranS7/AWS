@@ -1,0 +1,74 @@
+service: sample-service
+
+provider:
+    name: aws
+    runtime: nodejs
+    region: eu-west-1
+    environment: 
+        SERVICE_TABLE_NAME: ${self:custom.default.tables.service.name}
+
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:{opt:region,self:provider.region}:*:table/${self:custom.default.tables.service.name}"
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+    dynamodb:
+        stage: poc 
+        
+        start:
+            port: 8000
+            inMemory: true
+            migrate: true
+    default:
+        stage: poc
+        tables:
+            service:
+                name: service-${self:provider.stage} 
+
+serverless-offline:
+  babelOptions:
+    presets: [
+        "@babel/preset-env",
+        "@babel/preset-flow"
+    ]
+
+functions:
+    getService:
+        handler: out/lambdas/getService.handler
+        events:
+            - http:
+                path:   /services/{serviceId}
+                method: GET
+                cors:
+                  origin: '*'
+
+resources:
+    Resources:
+        serviceTable: 
+            Type: 'AWS::DynamoDB::Table'                 
+            Properties:
+                AttributeDefinitions:
+                    
+                    - AttributeName: serviceId
+                      AttributeType: S                      
+                   
+                ServiceSchema:
+                   
+                    - AttributeName: serviceId
+                      ServiceType: HASH
+                    
+                ProvisionedThroughput:
+                    ReadCapacityUnits: 10
+                    WriteCapacityUnits: 10
+                TableName: ${self:custom.default.tables.service.name}
