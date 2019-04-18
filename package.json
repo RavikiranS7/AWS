@@ -1,0 +1,46 @@
+{
+  "name": "new-lambda",
+  "version": "1.0.0",
+  "description": "sample lambda to insert and get the data from dynamoDB.",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf out/* && babel src/ -d out/",
+    "tidy": "prettier --tab-width 4 --single-quote --trailing-comma=es5 --write \"{src,features}/**/*.js\"",
+    "start": "sls offline",
+    "flow": "flow",
+    "package": "npm prune --production && zip -r dynamoDB-lambda.zip ./out ./node_modules ./package.json"
+  },
+  "repository": {
+    "type": "github",
+    "url": ""
+  },
+  "author": "ravikiran s",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.1",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "aws-sdk": "^2.315.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.14.1",
+    "eslint-plugin-flowtype": "^3.4.2",
+    "flow-bin": "^0.80.0",
+    "prettier": "1.14.2",
+    "serverless-dynamodb-local": "^0.2.30",
+    "serverless-offline": "^3.31.0",
+    "stryker": "^0.29.2",
+    "stryker-api": "^0.21.1",
+    "stryker-babel-transpiler": "^0.7.2",
+    "stryker-html-reporter": "^0.16.2",
+    "stryker-javascript-mutator": "^0.10.0",
+    "stryker-jest-runner": "^1.2.1"
+  },
+  "dependencies": {
+    "serverless-dynamodb-client": "0.0.2",
+    "proxy-agent": "^3.0.3"
+  }
+}
