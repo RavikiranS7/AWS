@@ -63,10 +63,10 @@ resources:
                     - AttributeName: serviceId
                       AttributeType: S                      
                    
-                ServiceSchema:
+                KeySchema:
                    
                     - AttributeName: serviceId
-                      ServiceType: HASH
+                      KeyType: HASH
                     
                 ProvisionedThroughput:
                     ReadCapacityUnits: 10
